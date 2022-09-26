@@ -1,0 +1,40 @@
+{
+    "items": [
+        {
+            "name": "Головная организация",
+            "id_sub_zones": 0,
+            "id": 1
+        },
+        {
+            "name": "Парковка",
+            "id_sub_zones": 1,
+            "id": 2
+        },
+        {
+            "name": "Коридор",
+            "id_sub_zones": 1,
+            "id": 3
+        },
+        {
+            "name": "Хозблок",
+            "id_sub_zones": 2,
+            "id": 4
+        },
+        {
+            "name": "Кабинет 1",
+            "id_sub_zones": 2,
+            "id": 5
+        },
+        {
+            "name": "Кабинет 2",
+            "id_sub_zones": 3,
+            "id": 6
+        }
+    ],
+    "meta": {
+        "page": 1,
+        "per_page": 100,
+        "total": 6,
+        "pages": 1
+    }
+}

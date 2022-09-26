@@ -1,0 +1,50 @@
+@import "./colors";
+
+@mixin default-background {
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+@mixin default-container {
+  width: 1200px;
+  padding-left: 45px;
+  padding-right: 45px;
+  margin: 0 auto;
+}
+
+@mixin placeholder {
+  &::placeholder { @content; }
+  &::-webkit-input-placeholder { @content; }
+  &:-moz-placeholder           { @content; }
+  &::-moz-placeholder          { @content; }
+  &:-ms-input-placeholder      { @content; }
+}
+
+@mixin ellipsis-overflow($nowrap: false) {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @if $nowrap {
+    white-space: nowrap;
+  }
+}
+
+@mixin default-button {
+  padding: 10px 16px;
+  height: 40px;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  text-align: center;
+  color: $white;
+  background-color: $mint;
+}
+
+@mixin cancel-button {
+  @include default-button;
+  color: $mint;
+  background-color: $grey4;
+}

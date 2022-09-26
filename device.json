@@ -1,0 +1,59 @@
+{
+    "items": [
+        {
+            "id_control_zones": 1,
+            "type": "Контроллер",
+            "passwd": "password",
+            "ipaddress": "127.0.0.1",
+            "token": "master",
+            "login": "login",
+            "port": 8080,
+            "id": 1
+        },
+        {
+            "id_control_zones": 1,
+            "type": "Контроллер",
+            "ipaddress": "17.220.30.19",
+            "passwd": "password",
+            "login": "login",
+            "port": 80,
+            "id": 2
+        },
+        {
+            "id_control_zones": 2,
+            "type": "Дополнительный",
+            "passwd": "password",
+            "ipaddress": "172.17.23.12",
+            "token": "master",
+            "login": "login",
+            "port": 9870,
+            "id": 3
+        },
+        {
+            "id_control_zones": 2,
+            "type": "Контроллер",
+            "passwd": "password",
+            "ipaddress": "192.168.4.4",
+            "token": "master",
+            "login": "login",
+            "port": 446,
+            "id": 4
+        },
+        {
+            "id_control_zones": 3,
+            "type": "Измеритель температуры",
+            "passwd": "password",
+            "ipaddress": "127.0.46.21",
+            "token": "master",
+            "login": "login",
+            "port": 9090,
+            "id": 5
+        }
+    ],
+    "meta": {
+        "page": 1,
+        "per_page": 100,
+        "total": 5,
+        "pages": 1
+    }
+}
