@@ -8,6 +8,7 @@
               label="IP адрес устройства"
               name="ip"
               :value="IPAddress"
+              :error="ipError"
               @input="inputIp"
           />
         </div>
@@ -128,6 +129,7 @@ export default {
       typeOptions: TypeOptions,
       zoneOptions: ZoneOptions,
       zonePopupVisibility: false,
+      ipError: "",
       IPAddress: "",
       port: "",
       zone: "",
@@ -166,10 +168,13 @@ export default {
       this.login = newVal.login;
       this.passwd = newVal.passwd;
       this.token = newVal.token;
+
+      this.ipError = "";
     },
 
     inputIp(data) {
       if (typeof data == "string") {
+        this.ipError = "";
         this.IPAddress = data;
       }
     },
@@ -211,6 +216,10 @@ export default {
     },
 
     editDevice() {
+      if (!/^((25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])(\.(?!$)|$)){4}$/.test(this.IPAddress)) {
+        this.ipError = "Ошибка в IP адресе";
+        return;
+      }
       let obj = {
         id: this.editDeviceData.id,
         type: this.type,

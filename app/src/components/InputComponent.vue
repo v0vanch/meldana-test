@@ -4,12 +4,16 @@
       <div class="input-block">
         <input
             class="input"
+            :class="{ 'error': error !== '' }"
             :type="type"
             :name="name"
             :value="value"
             :placeholder="placeholder"
             @input="$emit('input', $event.target.value)"
         />
+      </div>
+      <div class="error-text">
+        <small>{{ error }}</small>
       </div>
     </LabelComponent>
   </div>
@@ -43,6 +47,11 @@ export default {
       type: String,
       required: true,
     },
+    error: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   components: {
     LabelComponent,
@@ -66,6 +75,10 @@ export default {
   @include placeholder {
     color: $grey2;
   }
+
+  &.error {
+    border: 1px solid #ff0000;
+  }
 }
 
 .search .input-block {
@@ -81,5 +94,11 @@ export default {
     @include default-background;
     background-image: url('../assets/icons/search.svg');
   }
+}
+
+.error-text {
+  color: #ff0000;
+  font-size: 12px;
+  margin-top: 4px;
 }
 </style>
