@@ -1,7 +1,11 @@
+<script setup>
+  import { zoneTree } from "@/stores/store";
+</script>
+
 <template>
   <form class="form">
     <div class="zone-list">
-      <div v-for="item in zoneList" :key="item.index">
+      <div v-for="item in zoneTree" :key="item.index">
         <tree-item :item="item" @editElement="selectValue"/>
       </div>
     </div>

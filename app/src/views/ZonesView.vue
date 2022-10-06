@@ -1,3 +1,6 @@
+<script setup>
+  import { zoneTree, loadDevicesData } from "@/stores/store";
+</script>
 <template>
   <PageContentWrapper>
     <div class="devices-wrapper">
@@ -30,7 +33,7 @@
       </div>
 
       <div class="device-tree-list">
-        <div v-for="item in treeList" :key="item.index">
+        <div v-for="item in zoneTree" :key="item.index">
           <tree-item-zones
             :item="item"
             @elementRemoveToCatalog="showDeletPopUp"
@@ -129,7 +132,9 @@ export default {
     };
   },
 
- 
+  mounted() {
+    loadDevicesData();
+  },
 
   methods: {
     showDeletPopUp(data) {

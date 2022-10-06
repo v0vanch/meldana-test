@@ -4,7 +4,7 @@
       <div class="input-block">
         <input
             class="input"
-            type="text"
+            :type="type"
             :name="name"
             :value="value"
             :placeholder="placeholder"
@@ -33,6 +33,11 @@ export default {
       type: String,
       required: false,
       default: '',
+    },
+    type: {
+      type: String,
+      required: false,
+      default: 'text'
     },
     value: {
       type: String,

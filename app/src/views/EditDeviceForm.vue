@@ -7,10 +7,8 @@
           <InputComponent
               label="IP адрес устройства"
               name="ip"
-              :value="editDeviceData.IPAddress"
-              @input="input"
-
-
+              :value="IPAddress"
+              @input="inputIp"
           />
         </div>
         <div class="row">
@@ -18,18 +16,16 @@
             <InputComponent
                 label="Порт устройства"
                 name="port"
-                :value="editDeviceData.port"
-                @input="input"
+                :value="port"
+                @input="inputPort"
             />
           </div>
           <div class="half-column">
             <SelectComponent
                 :options="typeOptions"
-                :defaultValue="editDeviceData.type"
-                @input="input"
+                :defaultValue="label"
+                @input="inputType"
                 label="Тип устройства"
-
-
             />
           </div>
         </div>
@@ -42,7 +38,7 @@
                 :options="zoneOptions"
                 label="Точка"
                 class="list-icon"
-                :defaultValue="editDeviceData.zone"
+                :defaultValue="zone"
                 :hide-options="true"
                 @click="zonePopupVisibility = true"
             />
@@ -56,16 +52,19 @@
             <InputComponent
                 label="Логин"
                 name="port"
-                value=""
+                :value="login"
                 placeholder="Введите логин"
+                @input="inputLogin"
             />
           </div>
           <div class="half-column">
             <InputComponent
                 label="Пароль"
                 name="port"
-                value=""
+                type="password"
+                :value="passwd"
                 placeholder="Введите пароль"
+                @input="inputPort"
             />
           </div>
         </div>
@@ -73,15 +72,16 @@
           <InputComponent
               label="Секретный ключ (токен)"
               name="token"
-              value=""
+              :value="token"
               placeholder="Введите секретный ключ (токен)"
+              @input="inputToken"
           />
         </div>
       </div>
     </div>
     <div class="footer">
-      <button class="add-btn" type="button">
-        Добавить
+      <button class="add-btn" type="button" @click="editDevice">
+        Сохранить
       </button>
       <button class="cancel-btn" type="button" @click="closePopUp">
         Отменить
@@ -93,7 +93,7 @@
       :visibility="zonePopupVisibility"
       :onClose="closeZonePopup"
   >
-    <ChooseZoneForm @closePopUp="closeZonePopup"/>
+    <ChooseZoneForm @closePopUp="closeZonePopup" @selectValue="inputZone" />
   </PopupComponent>
 </template>
 
@@ -129,7 +129,32 @@ export default {
       typeOptions: TypeOptions,
       zoneOptions: ZoneOptions,
       zonePopupVisibility: false,
-      
+      IPAddress: "",
+      port: "",
+      zone: "",
+      zoneId: 0,
+      type: "",
+      label: "",
+      accessPoint: "Точка доступа",
+      state: 'disconnected',
+      login: "",
+      passwd: "",
+      token: "",
+    }
+  },
+  watch: {
+    editDeviceData(newVal) {
+      this.IPAddress = newVal.IPAddress;
+      this.port = newVal.port;
+      this.zone = newVal.zone;
+      this.zoneId = newVal.zoneId;
+      this.type = newVal.type;
+      this.label = newVal.label;
+      this.accessPoint = newVal.accessPoint;
+      this.state = newVal.state;
+      this.login = newVal.login;
+      this.passwd = newVal.passwd;
+      this.token = newVal.token;
     }
   },
   methods: {
@@ -139,10 +164,65 @@ export default {
     closePopUp() {
       this.$emit('closePopUp');
     },
-    input(data) {
-      console.log(data);
-    }
+    inputIp(data) {
+      if (typeof data == "string") {
+        this.IPAddress = data;
+      }
+    },
 
+    inputPort(data) {
+      if (typeof data == "string") {
+        this.port = data;
+      }
+    },
+
+    inputZone(data) {
+      this.zone = data.label;
+      this.zoneId = data.id;
+    },
+
+    inputType(data) {
+      if (typeof data == "object") {
+        this.type = data.value;
+        this.label = data.label;
+      }
+    },
+
+    inputLogin(data) {
+      if (typeof data == "string") {
+        this.login = data;
+      }
+    },
+
+    inputPasswd(data) {
+      if (typeof data == "string") {
+        this.passwd = data;
+      }
+    },
+
+    inputToken(data) {
+      if (typeof data == "string") {
+        this.token = data;
+      }
+    },
+
+    editDevice() {
+      let obj = {
+        id: this.editDeviceData.id,
+        type: this.type,
+        label: this.label,
+        id_control_zones: this.zoneId,
+        accesspoint: this.accessPoint,
+        ipaddress: this.IPAddress,
+        port: this.port,
+        state: this.state,
+        login: this.login,
+        passwd: this.passwd,
+        token: this.token,
+      }
+      this.closePopUp();
+      this.$emit("editDevice", obj);
+    },
   }
 
 }

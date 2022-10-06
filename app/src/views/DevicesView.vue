@@ -1,3 +1,7 @@
+<script setup>
+import { deviceList, deviceTree, loadDevicesData, addDeviceData, updateDeviceData, deleteDeviceData } from "@/stores/store";
+</script>
+
 <template>
   <PageContentWrapper>
     <div class="devices-wrapper">
@@ -42,7 +46,7 @@
       </div>
 
       <div class="device-tree-list" v-if="devicesView === 'tree'">
-        <div v-for="item in treeList" :key="item.index">
+        <div v-for="item in deviceTree" :key="item.index">
           <tree-item
             :item="item"
             @elementRemoveToCatalog="showDeletPopUp"
@@ -61,13 +65,12 @@
         </div>
         <div
           class="device-item"
-          v-for="(device, index) in list"
-          :key="device.index"
-           
+          v-for="(device) in deviceList"
+          :key="device.id"
         >
         <div class="device-wrap" @click="editDevices(device)">
           <div class="device-type">
-            {{ device.type }}
+            {{ device.label }}
           </div>
           <div class="device-zone">
             {{ device.zone }}
@@ -84,15 +87,15 @@
           <div
             class="device-state"
             :style="{
-              color: device.state.color,
+              color: DeviceStateTransformer[device.state].color,
             }"
           >
-            {{ device.state.text }}
+            {{ DeviceStateTransformer[device.state].text }}
           </div>
           <button class="device-edit-btn" />
         </div>
 
-          <button class="device-remove-btn" @click="showDeletPopUp(index)" />
+          <button class="device-remove-btn" @click="showDeletPopUp(device)" />
         </div>
       </div>
     </div>
@@ -124,6 +127,7 @@
     <EditDeviceForm
       @closePopUp="closeAddPopup"
       :editDeviceData="editDeviceData"
+      @editDevice="editDevice"
     />
   </PopupComponent>
 
@@ -154,12 +158,12 @@ import TreeItem from "@/components/TreeItem";
 import ChooseZoneForm from "@/views/ChooseZoneForm";
 import {
   DeviceList,
+  DeviceStateTransformer,
   TreeDeviceList,
   TreeZoneList,
   TypeOptions,
   ZoneOptions,
 } from "@/constants/devices";
-
 export default {
   name: "DevicesView",
   components: {
@@ -173,6 +177,9 @@ export default {
     PopupComponent,
     ChooseZoneForm,
     DeletDeviceForm,
+  },
+  mounted() {
+    loadDevicesData();
   },
   data() {
     return {
@@ -192,9 +199,11 @@ export default {
   },
   methods: {
     addDevice(data) {
-      data.id = this.list.length + 2
-      this.list.push(data);
-      console.log(this.list);
+      addDeviceData(data);
+    },
+
+    editDevice(data) {
+      updateDeviceData(data);
     },
 
     showEditPopUp(data) {
@@ -226,26 +235,7 @@ export default {
 
     deletElementDevices(data) {
       this.deletElement = false;
-
-      if (this.devicesView == "list") {
-        this.list.splice(data, 1);
-      } else {
-        removeElObject(this.treeList);
-      }
-
-      function removeElObject(obj) {
-        reomveEl(obj);
-        function reomveEl(ob) {
-          for (var item in ob) {
-            if (typeof ob[item] === "object") {
-              reomveEl(ob[item]);
-              if (ob[item].id == data.id) {
-                ob.splice(item, 1);
-              }
-            }
-          }
-        }
-      }
+      deleteDeviceData(data.id);
     },
   },
 };

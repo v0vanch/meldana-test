@@ -2,31 +2,37 @@
     "items": [
         {
             "name": "Головная организация",
+            "type": "company",
             "id_sub_zones": 0,
             "id": 1
         },
         {
             "name": "Парковка",
+            "type": "folder",
             "id_sub_zones": 1,
             "id": 2
         },
         {
             "name": "Коридор",
+            "type": "folder",
             "id_sub_zones": 1,
             "id": 3
         },
         {
             "name": "Хозблок",
+            "type": "folder",
             "id_sub_zones": 2,
             "id": 4
         },
         {
             "name": "Кабинет 1",
+            "type": "folder",
             "id_sub_zones": 2,
             "id": 5
         },
         {
             "name": "Кабинет 2",
+            "type": "folder",
             "id_sub_zones": 3,
             "id": 6
         }

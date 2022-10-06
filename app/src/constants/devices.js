@@ -272,28 +272,28 @@ export const TypeOptions = [
         label: 'Все устройства',
     },
     {
-        value: 'controllers',
-        label: 'Контроллеры',
+        value: 'controller',
+        label: 'Контроллер',
     },
     {
-        value: 'terminals',
-        label: 'Терминалы',
+        value: 'terminal',
+        label: 'Терминал',
     },
     {
-        value: 'thermometers',
-        label: 'Измерители температуры',
+        value: 'thermometer',
+        label: 'Измеритель температуры',
     },
     {
-        value: 'breathalyzers',
-        label: 'Алкотестеры',
+        value: 'breathalyzer',
+        label: 'Алкотестер',
     },
     {
-        value: 'metalDetectors',
-        label: 'Металлодетекторы',
+        value: 'metalDetector',
+        label: 'Металлодетектор',
     },
     {
         value: 'additional',
-        label: 'Дополнительные',
+        label: 'Дополнительный',
     },
 ]
 

@@ -49,17 +49,20 @@
           <div class="half-column">
             <InputComponent
               label="Логин"
-              name="port"
+              name="login"
               value=""
               placeholder="Введите логин"
+              @input="inputLogin"
             />
           </div>
           <div class="half-column">
             <InputComponent
               label="Пароль"
-              name="port"
+              name="passwd"
               value=""
               placeholder="Введите пароль"
+              type="password"
+              @input="inputPasswd"
             />
           </div>
         </div>
@@ -69,6 +72,7 @@
             name="token"
             value=""
             placeholder="Введите секретный ключ (токен)"
+            @input="inputToken"
           />
         </div>
       </div>
@@ -85,7 +89,7 @@
     :visibility="zonePopupVisibility"
     :onClose="closeZonePopup"
   >
-    <ChooseZoneForm @closePopUp="closeZonePopup" @selectValue="zoneValue" />
+    <ChooseZoneForm @closePopUp="closeZonePopup" @selectValue="inputZone" />
   </PopupComponent>
 </template>
 
@@ -123,11 +127,14 @@ export default {
       IPAddress: "",
       port: "",
       zone: "",
+      zoneId: 0,
       type: "",
       label: "",
       accessPoint: "Точка доступа",
-      state: DeviceStateTransformer['disconnected']
-
+      state: 'disconnected',
+      login: "",
+      passwd: "",
+      token: "",
     };
   },
  
@@ -150,32 +157,51 @@ export default {
       }
     },
 
-    zoneValue(data) {
+    inputZone(data) {
       this.zone = data.label;
+      this.zoneId = data.id;
     },
 
     inputType(data) {
       if (typeof data == "object") {
-        this.type = data.label;
+        this.type = data.value;
         this.label = data.label;
+      }
+    },
+
+    inputLogin(data) {
+      if (typeof data == "string") {
+        this.login = data;
+      }
+    },
+
+    inputPasswd(data) {
+      if (typeof data == "string") {
+        this.passwd = data;
+      }
+    },
+
+    inputToken(data) {
+      if (typeof data == "string") {
+        this.token = data;
       }
     },
 
     addDevice() {
       let obj = {
-        id: "",
-        type: this.label,
+        type: this.type,
         label: this.label,
-        zone: this.zone,
-        accessPoint: this.accessPoint,
-        IPAddress: this.IPAddress,
+        id_control_zones: this.zoneId,
+        accesspoint: this.accessPoint,
+        ipaddress: this.IPAddress,
         port: this.port,
         state: this.state,
+        login: this.login,
+        passwd: this.passwd,
+        token: this.token,
       }
       this.closePopUp();
       this.$emit("addDevice", obj);
-
-      
     },
   },
 };
