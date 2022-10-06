@@ -1,5 +1,10 @@
 <script setup>
-import { deviceList, deviceTree, loadDevicesData, addDeviceData, updateDeviceData, deleteDeviceData } from "@/stores/store";
+import {
+  deviceList, deviceTree,
+  loadDevicesData, addDeviceData,
+  updateDeviceData, deleteDeviceData,
+  deviceFilter
+} from "@/stores/store";
 </script>
 
 <template>
@@ -11,9 +16,10 @@ import { deviceList, deviceTree, loadDevicesData, addDeviceData, updateDeviceDat
           <InputComponent
             label="Поиск"
             name="search"
-            value=""
             placeholder="Поиск"
             class="search"
+            :value="deviceFilter.labelAndIp"
+            @input="setFilterLabelAndIp"
           />
         </div>
         <div class="filter-item">
@@ -21,12 +27,17 @@ import { deviceList, deviceTree, loadDevicesData, addDeviceData, updateDeviceDat
             :options="zoneOptions"
             label="Зона"
             class="list-icon"
+            :defaultValue="zoneFilterLabel"
             :hide-options="true"
             @click="zonePopupVisibility = true"
           />
         </div>
         <div class="filter-item">
-          <SelectComponent :options="typeOptions" label="Тип устройства" />
+          <SelectComponent
+          :options="typeOptions"
+          label="Тип устройства"
+          :defaultValue="typeFilterLabel"
+          @input="setFilterType"/>
         </div>
       </div>
       <div class="control-panel">
@@ -116,7 +127,7 @@ import { deviceList, deviceTree, loadDevicesData, addDeviceData, updateDeviceDat
     :visibility="zonePopupVisibility"
     :onClose="closeZonePopup"
   >
-    <ChooseZoneForm @closePopUp="closeZonePopup" />
+    <ChooseZoneForm @closePopUp="closeZonePopup" @selectValue="setFilterZone"/>
   </PopupComponent>
 
   <PopupComponent
@@ -196,6 +207,8 @@ export default {
       deletElement: false,
       editDeviceData: {},
       deletDeviceData: {},
+      zoneFilterLabel: '',
+      typeFilterLabel: '',
     };
   },
   methods: {
@@ -239,6 +252,24 @@ export default {
     deletElementDevices(data) {
       this.deletElement = false;
       deleteDeviceData(data.id);
+    },
+
+    setFilterLabelAndIp(data) {
+      if (typeof data === 'string') {
+        deviceFilter.labelAndIp = data;
+      }
+    },
+    setFilterZone(data) {
+      if (typeof data === 'object') {
+        deviceFilter.zoneId = data.id;
+        this.zoneFilterLabel = data.label;
+      }
+    },
+    setFilterType(data) {
+      if (typeof data === 'object') {
+        deviceFilter.type = data.value;
+        this.typeFilterLabel = data.label;
+      }
     },
   },
 };

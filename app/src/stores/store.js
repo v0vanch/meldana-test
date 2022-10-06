@@ -1,9 +1,15 @@
-import { ref, computed } from "@vue/reactivity";
+import { ref, computed, reactive } from "@vue/reactivity";
 import { createDevice, deleteDevice, getDevices, updateDevice } from "@/services/deviceApi";
 import { getZones } from "@/services/zoneApi";
 
 const zones = ref([]);
 const devices = ref([]);
+
+export const deviceFilter = reactive({
+    labelAndIp: '',
+    zoneId: 'all',
+    type: 'all',
+});
 
 export const loadDevicesData = async () => {
     zones.value = await getZones();
@@ -12,6 +18,16 @@ export const loadDevicesData = async () => {
 
 export const deviceList = computed(() =>
     devices.value
+        .filter((device) => {
+            if (deviceFilter.labelAndIp !== '' &&
+                !(device.label.toLowerCase().includes(deviceFilter.labelAndIp.toLowerCase()) ||
+                    device.ipaddress.includes(deviceFilter.labelAndIp))
+            ) return false;
+            if (deviceFilter.type !== 'all' && deviceFilter.type !== device.type) return false;
+            if (deviceFilter.zoneId !== 'all' && deviceFilter.zoneId !== device.id_control_zones) return false;
+
+            return true;
+        })
         .map((device) => ({
             id: device.id,
             type: device.type,
@@ -77,7 +93,7 @@ export const deviceTree = computed(() => {
             parent.children.push(zoneNode);
         }
     }
-    deviceList.value.forEach((device) => {
+    for (const device of devices.value) {
         const path = paths[device.zoneId];
 
         const deviceNode = {
@@ -92,7 +108,7 @@ export const deviceTree = computed(() => {
             for (let i = 1; i < path.length; i++) parent = parent.children[path[i]];
             parent.children.push(deviceNode);
         }
-    });
+    }
     return tree;
 });
 

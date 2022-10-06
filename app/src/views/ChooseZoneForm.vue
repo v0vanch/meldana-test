@@ -5,7 +5,7 @@
 <template>
   <form class="form">
     <div class="zone-list">
-      <div v-for="item in zoneTree" :key="item.index">
+      <div v-for="item in zonesWithAllItem" :key="item.index">
         <tree-item :item="item" @editElement="selectValue"/>
       </div>
     </div>
@@ -34,7 +34,17 @@ export default {
       
     }
   },
- 
+  computed: {
+    zonesWithAllItem() {
+      return [
+        {
+          id: 'all',
+          label: 'Все зоны',
+        },
+        ...zoneTree.value,
+      ];
+    },
+  },
   methods: {
     closePopUp() {
       this.$emit('closePopUp');
