@@ -6,7 +6,7 @@
           <InputComponent
             label="IP адрес устройства"
             name="ip"
-            value=""
+            :value="IPAddress"
             @input="inputIp"
           />
         </div>
@@ -15,13 +15,14 @@
             <InputComponent
               label="Порт устройства"
               name="port"
-              value=""
+              :value="port"
               @input="inputPort"
             />
           </div>
           <div class="half-column">
             <SelectComponent
               :options="typeOptions"
+              :defaultValue="label"
               @input="inputType"
               label="Тип устройства"
             />
@@ -50,7 +51,7 @@
             <InputComponent
               label="Логин"
               name="login"
-              value=""
+              :value="login"
               placeholder="Введите логин"
               @input="inputLogin"
             />
@@ -59,7 +60,7 @@
             <InputComponent
               label="Пароль"
               name="passwd"
-              value=""
+              :value="passwd"
               placeholder="Введите пароль"
               type="password"
               @input="inputPasswd"
@@ -70,7 +71,7 @@
           <InputComponent
             label="Секретный ключ (токен)"
             name="token"
-            value=""
+            :value="token"
             placeholder="Введите секретный ключ (токен)"
             @input="inputToken"
           />
@@ -129,7 +130,7 @@ export default {
       zone: "",
       zoneId: 0,
       type: "",
-      label: "",
+      label: TypeOptions[0].label,
       accessPoint: "Точка доступа",
       state: 'disconnected',
       login: "",
@@ -202,6 +203,10 @@ export default {
       }
       this.closePopUp();
       this.$emit("addDevice", obj);
+    },
+
+    resetState() {
+      Object.assign(this.$data, this.$options.data());
     },
   },
 };

@@ -105,7 +105,6 @@ import ChooseZoneForm from "@/views/ChooseZoneForm";
 import {TypeOptions, ZoneOptions} from '@/constants/devices';
 
 export default {
-
   props: { 
     onClose: {
       type: Function,
@@ -144,6 +143,18 @@ export default {
   },
   watch: {
     editDeviceData(newVal) {
+      this.assignEditData(newVal);
+    }
+  },
+  methods: {
+    closeZonePopup() {
+      this.zonePopupVisibility = false
+    },
+    closePopUp() {
+      this.$emit('closePopUp');
+    },
+
+    assignEditData(newVal) {
       this.IPAddress = newVal.IPAddress;
       this.port = newVal.port;
       this.zone = newVal.zone;
@@ -155,15 +166,8 @@ export default {
       this.login = newVal.login;
       this.passwd = newVal.passwd;
       this.token = newVal.token;
-    }
-  },
-  methods: {
-    closeZonePopup() {
-      this.zonePopupVisibility = false
     },
-    closePopUp() {
-      this.$emit('closePopUp');
-    },
+
     inputIp(data) {
       if (typeof data == "string") {
         this.IPAddress = data;
@@ -222,6 +226,10 @@ export default {
       }
       this.closePopUp();
       this.$emit("editDevice", obj);
+    },
+
+    resetState() {
+      this.assignEditData(this.editDeviceData);
     },
   }
 

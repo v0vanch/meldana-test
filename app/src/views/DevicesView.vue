@@ -106,9 +106,9 @@ import { deviceList, deviceTree, loadDevicesData, addDeviceData, updateDeviceDat
     :onClose="closeAddPopup"
   >
     <AddDeviceForm 
-    @closePopUp="closeAddPopup"
-    @addDevice="addDevice"
-    
+      @closePopUp="closeAddPopup"
+      @addDevice="addDevice"
+      ref="add-form"
     />
   </PopupComponent>
   <PopupComponent
@@ -128,6 +128,7 @@ import { deviceList, deviceTree, loadDevicesData, addDeviceData, updateDeviceDat
       @closePopUp="closeAddPopup"
       :editDeviceData="editDeviceData"
       @editDevice="editDevice"
+      ref="edit-form"
     />
   </PopupComponent>
 
@@ -226,7 +227,9 @@ export default {
 
     closeAddPopup() {
       this.addPopupVisibility = false;
+      this.$refs['add-form'].resetState();
       this.editPopupVisibility = false;
+      this.$refs['edit-form'].resetState();
       this.deletElement = false;
     },
     closeZonePopup() {
